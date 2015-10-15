@@ -31,7 +31,7 @@ CREATE TABLE Ratings (
 	content VARCHAR(2000) NOT NULL,
 	CONSTRAINT star_rating CHECK (rating >= 0 AND rating <=5),
 	PRIMARY KEY(seller_userID, buyer_userID, itemID, timestamp),
-	FOREIGN KEY(seller_userID, buyer_userID, itemID, timestamp),
+	FOREIGN KEY(seller_userID, buyer_userID, itemID, timestamp) REFERENCES Transactions(seller_userID, buyer_userID, itemID, timestamp)
 	);
 	
 CREATE TABLE Transactions (
