@@ -1,0 +1,4 @@
+CREATE TABLE Users (
+	userID INTEGER AUTO_INCREMENT NOT NULL,
+	type ENUM("User", "Vendor") NOT NULL,
+	
