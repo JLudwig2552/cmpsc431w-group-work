@@ -1,3 +1,9 @@
 CREATE TABLE Category(categoryID CHAR(20), name CHAR(30), description CHAR(100), PRIMARY KEY(categoryID));
 
-CREATE TABLE CategoryRelations(categoryID CHAR(30), parentID CHAR(30), childID CHAR(30), PRIMARY KEY (categoryID), FOREIGN KEY (parentID) REFERENCES Category(categoryID), FOREIGN KEY(childID) REFERENCES Category (categoryID), FOREIGN KEY(categoryID) REFERENCES Category(categoryID) ON DELETE CASCADE);
+CREATE TABLE CategoryRelations(categoryID CHAR(20), parentID CHAR(20), childID CHAR(20), PRIMARY KEY (categoryID), FOREIGN KEY (parentID) REFERENCES Category(categoryID), FOREIGN KEY(childID) REFERENCES Category (categoryID), FOREIGN KEY(categoryID) REFERENCES Category(categoryID) ON DELETE CASCADE);
+
+CREATE TABLE Items(itemID CHAR(20), description CHAR(200), sale_price REAL, addressID CHAR(20), PRIMARY KEY(itemID), FOREIGN KEY (addressID) REFERENCES ADDRESS (addressID) ON DELETE NO ACTION);
+
+CREATE TABLE Auction(auctionID CHAR(20), reserve_price REAL, top_bid CHAR(20), end_time DATE, PRIMARY KEY(auctionID), FOREIGN KEY (top_bid) REFERENCES BID(bidID));
+
+CREATE TABLE Bids(bidID CHAR(20), auctionID, timestamp DATE, amount REAL, PRIMARY KEY (bidID), FOREIGN KEY (auctionID) REFERENCES Auction(auctionID) ON DELETE CASCADE);
