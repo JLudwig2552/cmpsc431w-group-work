@@ -1,4 +1,71 @@
 CREATE TABLE Users (
 	userID INTEGER AUTO_INCREMENT NOT NULL,
 	type ENUM("User", "Vendor") NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	address_streeAddr VARCHAR(255) NOT NULL,
+	address_city VARCHAR(255) NOT NULL,
+	address_state CHAR(2) NOT NULL,
+	address_zip CHAR(5) NOT NULL,
+	address_zip_ext CHAR(4),
+	birthdate TIMESTAMP NOT NULL,
+	email VARCHAR(255) NOT NULL,
+	PRIMARY KEY(userID)
+	);
+	
+CREATE TABLE Vendors (
+	userID INTEGER NOT NULL,
+	type ENUM("Vendor") NOT NULL,
+	company_name VARCHAR(255) NOT NULL,
+	phone_num CHAR(11) NOT NULL,
+	PRIMARY KEY(userID),
+	FOREIGN KEY(userID, type) REFERENCES Users(userID, type)
+	);
+	
+CREATE TABLE Ratings (
+	seller_userID INTEGER NOT NULL,
+	buyer_userID INTEGER NOT NULL,
+	timestamp TIMESTAMP NOT NULL,
+	itemID INTEGER NOT NULL,
+	subject VARCHAR(255) NOT NULL,
+	rating TINYINT NOT NULL,
+	CONSTRAINT star_rating CHECK (rating >= 0 AND rating <=5),
+	content VARCHAR(2000) NOT NULL,
+	PRIMARY KEY(seller_userID, buyer_userID, itemID, timestamp),
+	FOREIGN KEY(seller_userID, buyer_userID, itemID, timestamp),
+	);
+	
+CREATE TABLE Transactions (
+	seller_userID INTEGER NOT NULL,
+	buyer_userID INTEGER NOT NULL,
+	timestamp TIMESTAMP NOT NULL,
+	itemID INTEGER NOT NULL,
+	itemCt UNSIGNED INTEGER NOT NULL,
+	carrier_trackingNum VARCHAR(255),
+	salePrice DECIMAL(6,2) NOT NULL,
+	PRIMARY KEY(seller_userID, buyer_userID, itemID, timestamp)
+	);
+	
+CREATE TABLE Reviews (
+	);
+	
+CREATE TABLE Sells (
+	);
+	
+CREATE TABLE Items (
+	);
+	
+CREATE TABLE Categories (
+	);
+	
+CREATE TABLE Cat_Children (
+	);
+	
+CREATE TABLE Auctions (
+	);
+	
+CREATE TABLE Bids (
+	);
+	
+CREATE TABLE CreditCards (
+	);
 	
