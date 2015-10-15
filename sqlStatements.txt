@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 CREATE TABLE Users (
 	userID INTEGER AUTO_INCREMENT NOT NULL,
 	type ENUM("User", "Vendor") NOT NULL,
@@ -6,8 +5,8 @@ CREATE TABLE Users (
 	address_streeAddr VARCHAR(255) NOT NULL,
 	address_city VARCHAR(255) NOT NULL,
 	address_state CHAR(2) NOT NULL,
-	address_zip CHAR(5) NOT NULL,
-	address_zip_ext CHAR(4),
+	address_zip NUMBER(5,0) NOT NULL,
+	address_zip_ext NUMBER(4,0),
 	birthdate TIMESTAMP NOT NULL,
 	email VARCHAR(255) NOT NULL,
 	PRIMARY KEY(userID)
@@ -17,7 +16,7 @@ CREATE TABLE Vendors (
 	userID INTEGER NOT NULL,
 	type ENUM("Vendor") NOT NULL,
 	company_name VARCHAR(255) NOT NULL,
-	phone_num CHAR(11) NOT NULL,
+	phone_num NUMBER(11,0) NOT NULL,
 	PRIMARY KEY(userID),
 	FOREIGN KEY(userID, type) REFERENCES Users(userID, type)
 	);
@@ -29,8 +28,8 @@ CREATE TABLE Ratings (
 	itemID INTEGER NOT NULL,
 	subject VARCHAR(255) NOT NULL,
 	rating TINYINT NOT NULL,
-	CONSTRAINT star_rating CHECK (rating >= 0 AND rating <=5),
 	content VARCHAR(2000) NOT NULL,
+	CONSTRAINT star_rating CHECK (rating >= 0 AND rating <=5),
 	PRIMARY KEY(seller_userID, buyer_userID, itemID, timestamp),
 	FOREIGN KEY(seller_userID, buyer_userID, itemID, timestamp),
 	);
@@ -47,46 +46,98 @@ CREATE TABLE Transactions (
 	);
 	
 CREATE TABLE Reviews (
+	itemID INTEGER NOT NULL,
+	author_userID INTEGER NOT NULL,
+	rating TINYINT NOT NULL, 
+	CONSTRAINT star_rating CHECK (rating >= 0 AND rating <=5),
+	content VARCHAR(2000) NOT NULL, 
+	timestamp TIMESTAMP NOT NULL, 
+	PRIMARY KEY (itemID, user), 
+	FOREIGN KEY (itemID) REFERENCES Items (itemID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (author_userID) REFERENCES Users(userID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
 	);
 	
 CREATE TABLE Sells (
+	itemID INTEGER NOT NULL, 
+	sellerID INTEGER NOT NULL,
+	description VARCHAR(2000) NOT NULL, 
+	price DECIMAL(6,2) NOT NULL,
+	PRIMARY KEY(itemID, sellerID), 
+	FOREIGN KEY(itemID) REFERENCES Items(itemID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY(sellerID) REFERENCES Users(userID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
 	);
 	
 CREATE TABLE Items (
+	itemID INTEGER AUTO_INCREMENT NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	category VARCHAR(30) NOT NULL,
+	PRIMARY KEY(itemID),
+	FOREIGN KEY(category) REFERENCES Categories(name)
+		ON UPDATE CASCADE,
 	);
 	
 CREATE TABLE Categories (
-	);
-	
-CREATE TABLE Cat_Children (
+	name VARCHAR(30) NOT NULL, 
+	description VARCHAR(2000), 
+	parent VARCHAR(30), 
+	PRIMARY KEY(name), 
+	FOREIGN KEY(parent) REFERENCES Categories (name) 
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	CONSTRAINT tree_constraint CHECK(name = "All" XOR parent NOT NULL)
 	);
 	
 CREATE TABLE Auctions (
+	auctioneerID INTEGER NOT NULL,
+	itemID INTEGER NOT NULL,
+	description VARCHAR(2000) NOT NULL,
+	reserve_price DECIMAL(6,2) NOT NULL,
+	start_time TIMESTAMP NOT NULL,
+	end_time TIMESTAMP NOT NULL, 
+	PRIMARY KEY(auctioneerID, start_time),
+	FOREIGN KEY(auctioneerID) REFERENCES Users(userID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY(itemID) REFERENCES Items(itemID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
 	);
 	
 CREATE TABLE Bids (
+	bidderID INTEGER NOT NULL,
+	auctioneerID INTEGER NOT NULL,
+	itemID INTEGER NOT NULL,
+	auction_start TIMESTAMP NOT NULL,
+	timestamp TIMESTAMP NOT NULL, 
+	amount DECIMAL(6,2), 
+	PRIMARY KEY (bidderID, auctioneerID, auction_start), 
+	FOREIGN KEY (auctioneerID, auction_start) REFERENCES Auction(auctioneerID, start_time)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+	
 	);
 	
 CREATE TABLE CreditCards (
+	userID INTEGER NOT NULL,
+	ccv INTEGER NOT NULL, 
+	address_streeAddr VARCHAR(255) NOT NULL,
+	address_city VARCHAR(255) NOT NULL,
+	address_state CHAR(2) NOT NULL,
+	address_zip CHAR(5) NOT NULL,
+	address_zip_ext CHAR(4),
+	merchant VARCHAR(20) NOT NULL, 
+	ccNumber NUMBER(16,0) NOT NULL, 
+	exp_date DATE, 
+	PRIMARY KEY(ccID),
+	FOREIGN KEY(userID) REFERENCES Users(userID)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
 	);
-	
-=======
-CREATE TABLE Category (categoryID CHAR(20), name CHAR(30), description CHAR(100), parentID, PRIMARY KEY(categoryID), FOREIGN KEY parentID REFERENCES Category (categoryID));
-
-CREATE TABLE Items (itemID CHAR(20), description CHAR(200), sale_price REAL, addressID CHAR(20), PRIMARY KEY(itemID), FOREIGN KEY (addressID) REFERENCES ADDRESS (addressID) ON DELETE NO ACTION);
-
-CREATE TABLE Auction (auctionID CHAR(20), reserve_price REAL, top_bid CHAR(20), end_time DATE NOT NULL, PRIMARY KEY(auctionID), FOREIGN KEY (top_bid) REFERENCES BID(bidID));
-
-CREATE TABLE Bids (bidID CHAR(20), auctionID, timestamp DATE, amount REAL, PRIMARY KEY (bidID), FOREIGN KEY (auctionID) REFERENCES Auction(auctionID) ON DELETE CASCADE);
-
-CREATE TABLE Address (addressID CHAR(20), street CHAR(40), city CHAR(30), state CHAR(30), zipcode CHAR(20), phone_number CHAR(20), PRIMARY KEY (addressID));
-
-CREATE TABLE Ratings (itemID CHAR(20), rating INTEGER, content CHAR(80), date DATE, PRIMARY KEY (itemID), FOREIGN KEY (itemID) REFERNCES Items (itemID) ON DELETE CASCADE);
-
-CREATE TABLE TRANSACTION (itemID CHAR(20), buyerID CHAR(20), sellerID CHAR(20), reviewID CHAR(20), sale_price REAL, PRIMARY KEY(itemID, buyerID, sellerID), FOREIGN KEY itemID REFERENCES Items (itemID), FOREIGN KEY (sellerID) REFRENCES Users(user_id), FOREIGN KEY (buyerID) REFERENCES Users(userID), FOREIGN KEY (reviewID) REFERENCES Review(reviewID));
-
-CREATE TABLE Review (reviewID CHAR(20), subject CHAR(20), content CHAR(80), date DATE, rating Integer, PRIMARY KEY (reviewID));
-
-CREATE TABLE CreditCard (ccID CHAR(20), ccv Integer, bill_address CHAR(20), merchant CHAR(20), number BIGINT, exp_date DATE, PRIMARY KEY (ccID));
-
->>>>>>> refs/remotes/origin/master
