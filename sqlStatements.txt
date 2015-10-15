@@ -1,0 +1,3 @@
+CREATE TABLE Category(categoryID CHAR(20), name CHAR(30), description CHAR(100), PRIMARY KEY(categoryID));
+
+CREATE TABLE CategoryRelations(categoryID CHAR(30), parentID CHAR(30), childID CHAR(30), PRIMARY KEY (categoryID), FOREIGN KEY (parentID) REFERENCES Category(categoryID), FOREIGN KEY(childID) REFERENCES Category (categoryID), FOREIGN KEY(categoryID) REFERENCES Category(categoryID) ON DELETE CASCADE);
