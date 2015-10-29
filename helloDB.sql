@@ -6,7 +6,7 @@ CREATE TABLE Users (
 	userID INTEGER AUTO_INCREMENT NOT NULL,
 	user_type ENUM('User', 'Vendor') NOT NULL,
 	name VARCHAR(255) NOT NULL,
-	birthdate TIMESTAMP NOT NULL,
+	birthdate DATETIME NOT NULL,
 	email VARCHAR(255) NOT NULL,
 	PRIMARY KEY(userID),
 	KEY(userID, user_type)
@@ -16,7 +16,7 @@ CREATE TABLE Addresses (
 	addressID INTEGER AUTO_INCREMENT NOT NULL,
 	userID INTEGER NOT NULL,
 	name VARCHAR(255) NOT NULL,
-	phone VARCHAR(10),
+	phone DECIMAL(11,0),
 	streetAddr VARCHAR(255) NOT NULL,
 	city VARCHAR(255) NOT NULL,
 	state CHAR(2) NOT NULL,
@@ -30,11 +30,12 @@ CREATE TABLE Addresses (
 	
 CREATE TABLE Vendors (
 	userID INTEGER NOT NULL,
-	user_type ENUM('Vendor') NOT NULL,
+	user_type ENUM('User', 'Vendor') NOT NULL,
 	company_name VARCHAR(255) NOT NULL,
 	phone_num DECIMAL(11,0) NOT NULL,
 	PRIMARY KEY(userID),
-	FOREIGN KEY(userID, user_type) REFERENCES Users(userID, user_type)
+	FOREIGN KEY(userID, user_type) REFERENCES Users(userID, user_type), 
+    CONSTRAINT is_vendor CHECK(user_type='Vendor')
 	);
 	
 CREATE TABLE Categories (
@@ -60,7 +61,7 @@ CREATE TABLE Items (
 CREATE TABLE Transactions (
 	seller_userID INTEGER NOT NULL,
 	buyer_userID INTEGER NOT NULL,
-	timestamp TIMESTAMP NOT NULL,
+	timestamp DATETIME NOT NULL,
 	itemID INTEGER NOT NULL,
 	itemCt INTEGER UNSIGNED NOT NULL,
 	carrier_trackingNum VARCHAR(255),
@@ -74,7 +75,7 @@ CREATE TABLE Transactions (
 CREATE TABLE Ratings (
 	seller_userID INTEGER NOT NULL,
 	buyer_userID INTEGER NOT NULL,
-	timestamp TIMESTAMP NOT NULL,
+	timestamp DATETIME NOT NULL,
 	itemID INTEGER NOT NULL,
 	subject VARCHAR(255) NOT NULL,
 	rating TINYINT NOT NULL,
@@ -90,7 +91,7 @@ CREATE TABLE Reviews (
 	rating TINYINT NOT NULL, 
 	CONSTRAINT star_rating CHECK (rating >= 0 AND rating <=5),
 	content VARCHAR(2000) NOT NULL, 
-	timestamp TIMESTAMP NOT NULL, 
+	timestamp DATETIME NOT NULL, 
 	PRIMARY KEY (itemID, author_userID), 
 	FOREIGN KEY (itemID) REFERENCES Items (itemID)
 		ON DELETE CASCADE
@@ -119,8 +120,8 @@ CREATE TABLE Auctions (
 	itemID INTEGER NOT NULL,
 	description VARCHAR(2000) NOT NULL,
 	reserve_price DECIMAL(6,2) NOT NULL,
-	start_time TIMESTAMP NOT NULL,
-	end_time TIMESTAMP NOT NULL, 
+	start_time DATETIME NOT NULL,
+	end_time DATETIME NOT NULL, 
 	PRIMARY KEY(auctioneerID, start_time),
 	FOREIGN KEY(auctioneerID) REFERENCES Users(userID)
 		ON DELETE CASCADE
@@ -134,8 +135,8 @@ CREATE TABLE Bids (
 	bidderID INTEGER NOT NULL,
 	auctioneerID INTEGER NOT NULL,
 	itemID INTEGER NOT NULL,
-	auction_start TIMESTAMP NOT NULL,
-	timestamp TIMESTAMP NOT NULL, 
+	auction_start DATETIME NOT NULL,
+	timestamp DATETIME NOT NULL, 
 	amount DECIMAL(6,2), 
 	PRIMARY KEY (bidderID, auctioneerID, auction_start), 
 	FOREIGN KEY (auctioneerID, auction_start) REFERENCES Auctions(auctioneerID, start_time)
@@ -159,86 +160,88 @@ CREATE TABLE CreditCards (
 	);
     
     
-LOAD DATA INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Users.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Users.csv' 
 INTO TABLE Users
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Addresses.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Addresses.csv' 
 INTO TABLE Addresses
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Vendors.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Vendors.csv' 
 INTO TABLE Vendors
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Categories.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Categories.csv' 
 INTO TABLE Categories
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Items.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Items.csv' 
 INTO TABLE Items
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Transactions.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Transactions.csv' 
 INTO TABLE Transactions
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Ratings.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Ratings.csv' 
 INTO TABLE Ratings
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Reviews.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Reviews.csv' 
 INTO TABLE Reviews
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Sells.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Sells.csv' 
 INTO TABLE Sells
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Auctions.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Auctions.csv' 
 INTO TABLE Auctions
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Bids.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Bids.csv' 
 INTO TABLE Bids
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/CreditCards.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/CreditCards.csv' 
 INTO TABLE CreditCards
-FIELDS TERMINATED BY ',' 
+FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
+
+SELECT * FROM Vendors;

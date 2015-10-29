@@ -1,0 +1,2 @@
+addressID, userID, name, phone, streetAddr, city, state, zip, zip_ext
+1, 1, Janice Brown, 5555555, 421 Fake St., Townsville, MC, 15622, NULL

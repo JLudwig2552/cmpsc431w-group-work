@@ -1,0 +1,2 @@
+userId, ccv, addressId, merchant, ccNumber, exp_date
+1, 555, 1, Visa, 1566545548966225, 2018-10-01
