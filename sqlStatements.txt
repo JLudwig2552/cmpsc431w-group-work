@@ -2,14 +2,25 @@ CREATE TABLE Users (
 	userID INTEGER AUTO_INCREMENT NOT NULL,
 	type ENUM("User", "Vendor") NOT NULL,
 	name VARCHAR(255) NOT NULL,
-	address_streeAddr VARCHAR(255) NOT NULL,
-	address_city VARCHAR(255) NOT NULL,
-	address_state CHAR(2) NOT NULL,
-	address_zip NUMBER(5,0) NOT NULL,
-	address_zip_ext NUMBER(4,0),
 	birthdate TIMESTAMP NOT NULL,
 	email VARCHAR(255) NOT NULL,
 	PRIMARY KEY(userID)
+	);
+
+CREATE TABLE Addresses (
+	addressID INTEGER AUTO_INCREMENT NOT NULL,
+	userID INTEGER NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	phone VARCHAR(10),
+	streetAddr VARCHAR(255) NOT NULL,
+	city VARCHAR(255) NOT NULL,
+	state CHAR(2) NOT NULL,
+	zip NUMBER(5,0) NOT NULL,
+	zip_ext NUMBER(4,0),
+	PRIMARY KEY (addressID),
+	FOREIGN KEY (userID) REFERENCES Users(userID)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE
 	);
 	
 CREATE TABLE Vendors (
@@ -42,7 +53,10 @@ CREATE TABLE Transactions (
 	itemCt UNSIGNED INTEGER NOT NULL,
 	carrier_trackingNum VARCHAR(255),
 	salePrice DECIMAL(6,2) NOT NULL,
-	PRIMARY KEY(seller_userID, buyer_userID, itemID, timestamp)
+	PRIMARY KEY(seller_userID, buyer_userID, itemID, timestamp),
+	FOREIGN KEY(seller_userID) REFERENCES Users (userID),
+	FOREIGN KEY(buyer_userID) REFERENCES Users (userID),
+	FOREIGN KEY(itemID) REFERENCES Items (itemID)
 	);
 	
 CREATE TABLE Reviews (
@@ -52,7 +66,7 @@ CREATE TABLE Reviews (
 	CONSTRAINT star_rating CHECK (rating >= 0 AND rating <=5),
 	content VARCHAR(2000) NOT NULL, 
 	timestamp TIMESTAMP NOT NULL, 
-	PRIMARY KEY (itemID, user), 
+	PRIMARY KEY (itemID, author_userID), 
 	FOREIGN KEY (itemID) REFERENCES Items (itemID)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE,
@@ -128,11 +142,7 @@ CREATE TABLE Bids (
 CREATE TABLE CreditCards (
 	userID INTEGER NOT NULL,
 	ccv INTEGER NOT NULL, 
-	address_streeAddr VARCHAR(255) NOT NULL,
-	address_city VARCHAR(255) NOT NULL,
-	address_state CHAR(2) NOT NULL,
-	address_zip CHAR(5) NOT NULL,
-	address_zip_ext CHAR(4),
+	addressID INTEGER NOT NULL,
 	merchant VARCHAR(20) NOT NULL, 
 	ccNumber NUMBER(16,0) NOT NULL, 
 	exp_date DATE, 
@@ -140,4 +150,5 @@ CREATE TABLE CreditCards (
 	FOREIGN KEY(userID) REFERENCES Users(userID)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE
+	FOREIGN KEY(addressID) REFERENCES Addresses(addressID)
 	);
