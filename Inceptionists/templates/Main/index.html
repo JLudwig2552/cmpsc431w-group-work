@@ -1,14 +1,43 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html>
 
+    <td background="{% static "contemporary_china_2.png" %}" no-repeat;>
     <head>
         <title>EBDB Website</title>
     </head>
 
-    <body>
+        <body>
+
+        <form action="/login/" method="post" align="right">
+            Username:
+            <input type="text" name="username" value="{{ username}}" /><br />
+            Password:
+            <input type="password" name="password" value="" /><br />
+
+            <input type="submit" value="Log In" />
+         </form>
+
+    <body background="{% static "contemporary_china_2.png" %}">
         <h1>Welcome to TACO Corp's EBDB Website</h1>
-        hello world! <strong>{{ boldmessage }}</strong><br />
         <a href="/Main/about/">About</a><br />
+    </body>
+
+    <body>
+        <ul>
+        {% for category in categories %}
+            <li><a href="/Main/{{ category }}/">{{ category }}</a></li>
+        {% endfor %}
+        </ul>
+    </body>
+
+    <body>
+        <img src="{% static "shoe1.jpg" %}" alt="Shoe1" />
+        <img src="{% static "shoe2.jpg" %}" alt="Shoe2" />
+        <img src="{% static "shoe3.jpg" %}" alt="Shoe3" />
+        <img src="{% static "shoe4.jpg" %}" alt="Shoe4" />
+        <img src="{% static "shoe5.jpg" %}" alt="Shoe5" />
     </body>
 
 </html>

@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^Main/', 'Main.views.index')
+    url(r'^Main/', 'Main.views.index'),
+    url(r'^about/','Main.views.about')
     #url(r'^Main/', include('Main.urls')), # ADD THIS NEW TUPLE!
 )

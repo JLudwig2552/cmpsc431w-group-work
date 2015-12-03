@@ -15,8 +15,8 @@ CREATE TABLE Addresses (
 	streetAddr VARCHAR(255) NOT NULL,
 	city VARCHAR(255) NOT NULL,
 	state CHAR(2) NOT NULL,
-	zip NUMBER(5,0) NOT NULL,
-	zip_ext NUMBER(4,0),
+	zip MEDIUMINT NOT NULL,
+	zip_ext MEDIUMINT,
 	PRIMARY KEY (addressID),
 	FOREIGN KEY (userID) REFERENCES Users(userID)
 		ON UPDATE CASCADE
@@ -27,9 +27,9 @@ CREATE TABLE Vendors (
 	userID INTEGER NOT NULL,
 	type ENUM("Vendor") NOT NULL,
 	company_name VARCHAR(255) NOT NULL,
-	phone_num NUMBER(11,0) NOT NULL,
 	PRIMARY KEY(userID),
-	FOREIGN KEY(userID, type) REFERENCES Users(userID, type)
+	FOREIGN KEY(userID) REFERENCES Users(userID),
+	FOREIGN KEY(type) REFERENCES Users(type)
 	);
 	
 CREATE TABLE Ratings (

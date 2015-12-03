@@ -32,7 +32,6 @@ CREATE TABLE Vendors (
 	userID INTEGER NOT NULL,
 	user_type ENUM('User', 'Vendor') NOT NULL,
 	company_name VARCHAR(255) NOT NULL,
-	phone_num DECIMAL(11,0) NOT NULL,
 	PRIMARY KEY(userID),
 	FOREIGN KEY(userID, user_type) REFERENCES Users(userID, user_type), 
     CONSTRAINT is_vendor CHECK(user_type='Vendor')
@@ -160,84 +159,84 @@ CREATE TABLE CreditCards (
 	);
     
     
-LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Users.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/Frank/Documents/GitHub/cmpsc431w-group-work/csv/Users.csv' 
 INTO TABLE Users
 FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Addresses.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/Frank/Documents/GitHub/cmpsc431w-group-work/csv/Addresses.csv' 
 INTO TABLE Addresses
 FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Vendors.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/Frank/Documents/GitHub/cmpsc431w-group-work/csv/Vendors.csv' 
 INTO TABLE Vendors
 FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Categories.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/Frank/Documents/GitHub/cmpsc431w-group-work/csv/Categories.csv' 
 INTO TABLE Categories
 FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Items.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/Frank/Documents/GitHub/cmpsc431w-group-work/csv/Items.csv' 
 INTO TABLE Items
 FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Transactions.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/Frank/Documents/GitHub/cmpsc431w-group-work/csv/Transactions.csv' 
 INTO TABLE Transactions
 FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Ratings.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/Frank/Documents/GitHub/cmpsc431w-group-work/csv/Ratings.csv' 
 INTO TABLE Ratings
 FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Reviews.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/Frank/Documents/GitHub/cmpsc431w-group-work/csv/Reviews.csv' 
 INTO TABLE Reviews
 FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Sells.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/Frank/Documents/GitHub/cmpsc431w-group-work/csv/Sells.csv' 
 INTO TABLE Sells
 FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Auctions.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/Frank/Documents/GitHub/cmpsc431w-group-work/csv/Auctions.csv' 
 INTO TABLE Auctions
 FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/Bids.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/Frank/Documents/GitHub/cmpsc431w-group-work/csv/Bids.csv' 
 INTO TABLE Bids
 FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE 'C:/Users/ryan/Documents/GitHub/cmpsc431w-group-work/csv/CreditCards.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/Frank/Documents/GitHub/cmpsc431w-group-work/csv/CreditCards.csv' 
 INTO TABLE CreditCards
 FIELDS TERMINATED BY ', ' 
 ENCLOSED BY '\''
