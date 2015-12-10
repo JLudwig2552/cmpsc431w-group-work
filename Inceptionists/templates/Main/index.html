@@ -16,8 +16,12 @@
             Password:
             <input type="password" name="password" value="" /><br />
 
-            <input type="submit" value="Log In" />
+            <input type="submit" value="Log In"/>
          </form>
+
+        <form action="/register/" method="post" align="right">
+        <input type="submit" value="Register"/>
+        </form>
 
     <body background="{% static "contemporary_china_2.png" %}">
         <h1>Welcome to TACO Corp's EBDB Website</h1>
@@ -26,10 +30,24 @@
 
     <body>
         <ul>
-        {% for category in categories %}
-            <li><a href="/Main/{{ category }}/">{{ category }}</a></li>
+        {% for cg in categoriess %}
+            <li><a href="/Main/{{ cg }}/">{{ cg }}</a></li>
         {% endfor %}
         </ul>
+    </body>
+
+    <body>
+        {% if categories %}
+            <ul>
+                {% for category in categories %}
+                <!-- Following line changed to add an HTML hyperlink -->
+                <li><a href="/Main/category/{{ category.slug }}">{{ category.name }}</a></li>
+                {% endfor %}
+            </ul>
+       {% else %}
+            <strong>There are no categories present.</strong>
+       {% endif %}
+
     </body>
 
     <body>

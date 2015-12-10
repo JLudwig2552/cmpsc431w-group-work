@@ -26,7 +26,11 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    #url(r'^Main/category/.','Main.views.category'),
+    #url(r'^Main/category/.',include('Main.urls')),
+    url(r'^Main/category/(?P<category_name>\w+)$','Main.views.category'),
+    url(r'^Main/about/','Main.views.about'),
     url(r'^Main/', 'Main.views.index'),
-    url(r'^about/','Main.views.about')
+
     #url(r'^Main/', include('Main.urls')), # ADD THIS NEW TUPLE!
 )

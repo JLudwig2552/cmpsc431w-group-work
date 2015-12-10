@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 class Addresses(models.Model):
@@ -36,7 +37,7 @@ class Auctions(models.Model):
     end_time = models.DateTimeField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'auctions'
 
 
@@ -52,7 +53,6 @@ class Bids(models.Model):
         managed = False
         db_table = 'bids'
 
-
 class Categories(models.Model):
     name = models.CharField(primary_key=True, max_length=30)
     description = models.CharField(max_length=2000, blank=True, null=True)
@@ -62,6 +62,14 @@ class Categories(models.Model):
         managed = False
         db_table = 'categories'
 
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Categories, self).save(*args, **kwargs)
+
+    def __unicode__(self):      #For Python 2, use __str__ on Python 3
+        return self.name
 
 class Creditcards(models.Model):
     userid = models.ForeignKey('Users', db_column='userID')  # Field name made lowercase.
@@ -74,7 +82,6 @@ class Creditcards(models.Model):
     class Meta:
         managed = False
         db_table = 'creditcards'
-
 
 class Items(models.Model):
     itemid = models.AutoField(db_column='itemID', primary_key=True)  # Field name made lowercase.
@@ -98,7 +105,6 @@ class Ratings(models.Model):
         managed = False
         db_table = 'ratings'
 
-
 class Reviews(models.Model):
     itemid = models.ForeignKey(Items, db_column='itemID',related_name='review_itemid')  # Field name made lowercase.
     author_userid = models.ForeignKey('Users', db_column='author_userID',related_name='review_userid')  # Field name made lowercase.
@@ -110,7 +116,6 @@ class Reviews(models.Model):
         managed = False
         db_table = 'reviews'
 
-
 class Sells(models.Model):
     itemid = models.ForeignKey(Items, db_column='itemID',related_name='sells_itemid')  # Field name made lowercase.
     sellerid = models.ForeignKey('Users', db_column='sellerID',related_name='sellerid')  # Field name made lowercase.
@@ -120,7 +125,6 @@ class Sells(models.Model):
     class Meta:
         managed = False
         db_table = 'sells'
-
 
 class Transactions(models.Model):
     seller_userid = models.ForeignKey('Users', db_column='seller_userID',related_name='transactions_sellerid')  # Field name made lowercase.
@@ -135,9 +139,8 @@ class Transactions(models.Model):
         managed = False
         db_table = 'transactions'
 
-
-
-
+        #unique_together = (('seller_userID', 'buyer_userID', 'itemID', 'timestamp'))
+        #unique_together = (('transactions_sellerid', 'transactions_buyerid', 'transactions_itemid', 'timestamp'))
 
 class Vendors(models.Model):
     userid = models.ForeignKey(Users, db_column='userID', primary_key=True,related_name='vendors_userid')  # Field name made lowercase.
@@ -147,6 +150,7 @@ class Vendors(models.Model):
     class Meta:
         managed = False
         db_table = 'vendors'
+
 
 class Page(models.Model):
     category = models.ForeignKey(Categories)

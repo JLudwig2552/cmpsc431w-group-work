@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+     <body>
+        <ul>
+        {% for item in itemss %}
+            <li><a href="/Main/{{ item }}/">{{ item }}</a></li>
+        {% endfor %}
+        </ul>
+    </body>
+    </body>
+</html>
