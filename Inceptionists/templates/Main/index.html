@@ -10,25 +10,35 @@
 
         <body>
         <a href="/Main/">Home</a><br />
-        <form action="/login/" method="post" align="right">
-            Username:
-            <input type="text" name="username" value="{{ username}}" /><br />
-            Password:
-            <input type="password" name="password" value="" /><br />
 
-            <input type="submit" value="Log In"/>
-         </form>
-
-        <form action="/Main/add_user/" align="right">
+        {% if user.is_authenticated %}
+        <form action="/Main/logout/" align="right">
+         <input type="submit" value="Log Out">
+        </form>
+        {% else %}
+        <form action="/Main/login/" align="right">
+         <input type="submit" value="Log In">
+        </form>
+        {% endif %}
+        <form action="/Main/register/" align="right">
          <input type="submit" value="Register New User">
         </form>
+
         <!--
         <div style="text-align:right">
-        <a href="/Main/add_user/">Register New User</a><br />
+        <a href="/Main/register/">Register Here</a>
         </div>
         -->
+
     <body background="{% static "contemporary_china_2.png" %}">
         <h1>Welcome to TACO Corp's EBDB Website</h1>
+
+        {% if user.is_authenticated %}
+        <h1>Taco says... Welcome Back {{ user.username }}!</h1>
+        {% else %}
+        <h1>Taco says... Welcome to our website!</h1>
+        {% endif %}
+
         <a href="/Main/about/">About</a><br />
     </body>
 
@@ -49,12 +59,15 @@
                 <!-- Following line changed to add an HTML hyperlink -->
                 <li><a href="/Main/category/{{ category.slug }}">{{ category.name }}</a></li>
                 {% endfor %}
+                <li><a href="/Main/search/">Search for Items</a></li>
             </ul>
        {% else %}
             <strong>There are no categories present.</strong>
        {% endif %}
 
     </body>
+
+
 <!---
     <body>
         <img src="{% static "shoe1.jpg" %}" alt="Shoe1" />

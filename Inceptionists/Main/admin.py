@@ -1,5 +1,5 @@
 from django.contrib import admin
-from Main.models import Categories, Page, Addresses, Auctions, Bids, Creditcards, Items, Ratings, Reviews, Sells, Transactions, User
+from Main.models import Categories, Page, Addresses, Auctions, Bids, Creditcards, Items, Ratings, Reviews, Sells, Transactions, Users, BaseUser
 
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('name',)}
@@ -14,7 +14,8 @@ admin.site.register(Ratings)
 admin.site.register(Reviews)
 admin.site.register(Sells)
 admin.site.register(Transactions)
-admin.site.register(User)
+admin.site.register(Users)
+admin.site.register(BaseUser)
 #admin.site.register(Vendors)
 admin.site.register(Categories,CategoryAdmin)
 admin.site.register(Page)

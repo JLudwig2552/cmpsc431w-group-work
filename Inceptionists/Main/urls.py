@@ -5,6 +5,7 @@ from Main import views
 
 urlpatterns = patterns('',
         url(r'^Main/category/(?P<category_name>\w+)/$', views.category, name='category'),
+        url(r'^Main/item/(?P<category_name>\w+)/$', views.itemdetails, name='itemdetails'),
         url(r'^$', views.index, name='index'),
         url(r'^$', views.about, name='about'),
         url(r'^add_user/$', views.add_user, name='add_user'),
