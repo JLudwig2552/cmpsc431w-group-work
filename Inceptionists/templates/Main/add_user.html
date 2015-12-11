@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+    <body>
+        <h1>Add a User</h1>
+
+        <form id="user_form" method="post" action="/Main/add_user/">
+
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+                <br></br>
+            {% endfor %}
+
+            <input type="submit" name="submit" value="Create User" />
+        </form>
+    </body>
+
+</html>

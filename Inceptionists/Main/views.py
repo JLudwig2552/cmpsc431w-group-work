@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.template import RequestContext, loader
 from django.http import HttpResponse
 from Main.models import Page, Categories, Items
+from Main.forms import UsersForm
 
 import itertools
 import MySQLdb as mdb
@@ -44,6 +45,31 @@ def category(request, category_name_slug):
     return render(request, 'Main/index.html', context_dict)
 
 '''
+
+def add_user(request):
+    # A HTTP POST?
+    if request.method == 'POST':
+        form = UsersForm(request.POST)
+
+        # Have we been provided with a valid form?
+        if form.is_valid():
+            # Save the new category to the database.
+            form.save(commit=True)
+
+            # Now call the index() view.
+            # The user will be shown the homepage.
+            return index(request)
+        else:
+            # The supplied form contained errors - just print them to the terminal.
+            print form.errors
+    else:
+        # If the request was not a POST, display the form to enter details.
+        form = UsersForm()
+
+    # Bad form (or form details), no form supplied...
+    # Render the form with error messages (if any).
+    return render(request, 'Main/add_user.html', {'form': form})
+
 def category(request, category_name):
     try:
         con = mdb.connect('localhost', 'Admin1', 'Admin1', 'Inceptionists');

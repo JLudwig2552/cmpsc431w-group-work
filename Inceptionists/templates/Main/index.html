@@ -9,7 +9,7 @@
     </head>
 
         <body>
-
+        <a href="/Main/">Home</a><br />
         <form action="/login/" method="post" align="right">
             Username:
             <input type="text" name="username" value="{{ username}}" /><br />
@@ -19,14 +19,20 @@
             <input type="submit" value="Log In"/>
          </form>
 
-        <form action="/register/" method="post" align="right">
-        <input type="submit" value="Register"/>
+        <form action="/Main/add_user/" align="right">
+         <input type="submit" value="Register New User">
         </form>
-
+        <!--
+        <div style="text-align:right">
+        <a href="/Main/add_user/">Register New User</a><br />
+        </div>
+        -->
     <body background="{% static "contemporary_china_2.png" %}">
         <h1>Welcome to TACO Corp's EBDB Website</h1>
         <a href="/Main/about/">About</a><br />
     </body>
+
+
 
     <body>
         <ul>
@@ -49,7 +55,7 @@
        {% endif %}
 
     </body>
-
+<!---
     <body>
         <img src="{% static "shoe1.jpg" %}" alt="Shoe1" />
         <img src="{% static "shoe2.jpg" %}" alt="Shoe2" />
@@ -57,5 +63,5 @@
         <img src="{% static "shoe4.jpg" %}" alt="Shoe4" />
         <img src="{% static "shoe5.jpg" %}" alt="Shoe5" />
     </body>
-
+-->
 </html>
